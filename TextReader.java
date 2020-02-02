@@ -1,9 +1,12 @@
-/* Read text from a file and count the number of words and letters
- * 
- */
-
 import java.util.Scanner;
 import java.io.*;
+
+/**
+ * Read text from a file and count the number of words and letters
+ * 
+ * @author: Evan Vu
+ * @version: Feb 1
+ */
 public class TextReader{
     public static void main(String[] args){
         TextReader tr1 = new TextReader();
@@ -12,8 +15,11 @@ public class TextReader{
     
     public void run(){
         Scanner reader = null;
+        PrintWriter writer = null;
         try{
-            reader = new Scanner(new FileReader("week1.txt"));
+            //Creating a file writer to write ouputs on to a file
+            writer = new PrintWriter(new File("output.txt"));
+            reader = new Scanner(new FileReader("input.txt"));
             int counter=0;
             while (reader.hasNext()){
                 String line = reader.nextLine();
@@ -21,19 +27,32 @@ public class TextReader{
                 int letters = countLetters(line);
                 String lastWord = last(line);
                 counter++;
-                System.out.println("There are " + words + " words and " + letters + " letters with last word: " + lastWord + " on line " + counter);
+                writer.println("There are " + words + " words and " + letters + " letters with last word: " + lastWord + " on line " + counter);
             }
+            writer.close();
         }
         catch(Exception e){
             System.out.println("Exception occurred " + e);
         }
     }
     
+    /** 
+     * A method to get the number of words in a line
+     * 
+     * @param Words in a line as a string
+     * @return The number of words in that line
+     */
     public int countWords(String line){
         String[] words = line.split(" ");
         return words.length;
     }
     
+    /**
+     * A method to get the number of letters in a line
+     * 
+     * @param Words in a line as a string
+     * @return The number of words in that line
+     */
     public int countLetters(String line){
         char[] letters = line.toCharArray();
         int spaceCounter = 0;
@@ -45,6 +64,12 @@ public class TextReader{
     return letters.length - spaceCounter;
     }
     
+    /**
+     * A method to get the last word in a line
+     * 
+     * @param Words in a line as a string
+     * @return The last word in the line as a string
+     */
     public String last(String line){
         String[] words = line.split(" ");
         return words[words.length-1];
